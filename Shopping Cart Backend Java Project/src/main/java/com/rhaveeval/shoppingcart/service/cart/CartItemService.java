@@ -25,23 +25,26 @@ public class CartItemService implements CartItemServiceImpl {
 
 	@Override
 	public void addItemToCart(Long cartId, Long productId, int quantity) {
-		Cart cart = cartServiceImpl.getCart(productId);
-		Product product = productServiceImpl.getProductById(productId);
-		CartItem cartItem = cart.getItems().stream().filter(item -> item.getProduct().getId().equals(productId))
-				.findFirst().orElse(null);
-		if (cartItem.getId() == null) {
-			cartItem.setCart(cart);
-			cartItem.setProduct(product);
-			cartItem.setQuantity(quantity);
-			cartItem.setUnitPrice(product.getPrice());
-		} else {
-			cartItem.setQuantity(cartItem.getQuantity() + quantity);
-		}
-		cartItem.setTotalPrice();
-		cart.addItem(cartItem);
-		cartItemRepository.save(cartItem);
-		cartRepository.save(cart);
-	}
+		 Cart cart = cartServiceImpl.getCart(cartId);
+	        Product product = productServiceImpl.getProductById(productId);
+	        CartItem cartItem = cart.getItems()
+	                .stream()
+	                .filter(item -> item.getProduct().getId().equals(productId))
+	                .findFirst().orElse(new CartItem());
+	        if (cartItem.getId() == null) {
+	            cartItem.setCart(cart);
+	            cartItem.setProduct(product);
+	            cartItem.setQuantity(quantity);
+	            cartItem.setUnitPrice(product.getPrice());
+	        }
+	        else {
+	            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+	        }
+	        cartItem.setTotalPrice();
+	        cart.addItem(cartItem);
+	        cartItemRepository.save(cartItem);
+	        cartRepository.save(cart);
+	    }
 
 	@Override
 	public void removeItemFromCart(Long cartId, Long productId) {

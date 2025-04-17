@@ -17,7 +17,7 @@ public class CartService implements CartServiceImpl {
 
 	private final CartRepository cartRepository;
 	private final CartItemRepository cartItemRepository;
-
+	
 	@Override
 	public Cart getCart(Long id) {
 		Cart cart = cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("CartNotFound"));
@@ -39,6 +39,12 @@ public class CartService implements CartServiceImpl {
 	public BigDecimal getTotalPrice(Long id) {
 		Cart cart = getCart(id);
 		return cart.getTotalAmount();
+	}
+	
+	@Override
+	public Long initializeNewCart() {
+		Cart newCart = new Cart();
+		return cartRepository.save(newCart).getId();
 	}
 
 }
