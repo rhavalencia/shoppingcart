@@ -116,21 +116,18 @@ public class ProductService implements ProductServiceImpl {
 	}
 
 	@Override
-	public List<ProductDto> getConvertedProducts(List<Product> products){
-		return products.stream().map(this :: convertToDto).toList();
+	public List<ProductDto> getConvertedProducts(List<Product> products) {
+		return products.stream().map(this::convertToDto).toList();
 	}
-	
-	
-	
+
 	@Override
 	public ProductDto convertToDto(Product product) {
 		ProductDto productDto = modelMapper.map(product, ProductDto.class);
 		List<Image> images = imageRepository.findByProductId(product.getId());
-		List<ImageDto> imageDtos = images.stream(
-				).map(image -> modelMapper
-						.map(images, ImageDto.class)).toList();
+		List<ImageDto> imageDtos = images.stream()
+				.map(image -> modelMapper.map(image, ImageDto.class))
+				.toList();
 		productDto.setImages(imageDtos);
 		return productDto;
-
 	}
 }
