@@ -9,6 +9,7 @@ import com.rhaveeval.shoppingcart.model.Cart;
 import com.rhaveeval.shoppingcart.repository.CartItemRepository;
 import com.rhaveeval.shoppingcart.repository.CartRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,6 +27,7 @@ public class CartService implements CartServiceImpl {
 		return cartRepository.save(cart);
 	}
 
+	@Transactional
 	@Override
 	public void clearCart(Long id) {
 		Cart cart = getCart(id);
