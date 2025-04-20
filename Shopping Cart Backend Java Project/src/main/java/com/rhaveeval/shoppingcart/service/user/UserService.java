@@ -2,8 +2,10 @@ package com.rhaveeval.shoppingcart.service.user;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.rhaveeval.shoppingcart.dto.UserDto;
 import com.rhaveeval.shoppingcart.exceptions.AlreadyExistsException;
 import com.rhaveeval.shoppingcart.exceptions.ResourceNotFoundException;
 import com.rhaveeval.shoppingcart.model.User;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements UserServiceImpl {
 
 	private final UserRepository userRepository;
+	private final ModelMapper modelMapper;
 
 	@Override
 	public User getUserById(Long userId) {
@@ -52,4 +55,42 @@ public class UserService implements UserServiceImpl {
 		});
 	}
 
+	public  UserDto convertToDto(User user) {
+		return modelMapper.map(user, UserDto.class);
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
