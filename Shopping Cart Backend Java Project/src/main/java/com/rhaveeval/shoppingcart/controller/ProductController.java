@@ -55,7 +55,8 @@ public class ProductController {
 	public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
 		try {
 			Product newProduct = productServiceImpl.addProduct(product);
-			return ResponseEntity.ok(new ApiResponse("New product added", newProduct));
+			ProductDto productDto = productServiceImpl.convertToDto(newProduct);
+			return ResponseEntity.ok(new ApiResponse("New product added", productDto));
 		} catch (Exception e) {
 			return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
 		}
@@ -65,7 +66,8 @@ public class ProductController {
 	public ResponseEntity<ApiResponse> updateProduct(@RequestBody UpdateProductRequest request, @PathVariable Long id) {
 		try {
 			Product product = productServiceImpl.updateProduct(request, id);
-			return ResponseEntity.ok(new ApiResponse("Product Updated Successfully", product));
+			ProductDto productDto = productServiceImpl.convertToDto(product);
+			return ResponseEntity.ok(new ApiResponse("Product Updated Successfully", productDto));
 		} catch (Exception e) {
 			return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
 		}

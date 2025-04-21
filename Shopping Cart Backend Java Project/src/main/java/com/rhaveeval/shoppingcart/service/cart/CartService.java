@@ -1,11 +1,13 @@
 package com.rhaveeval.shoppingcart.service.cart;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.rhaveeval.shoppingcart.exceptions.ResourceNotFoundException;
 import com.rhaveeval.shoppingcart.model.Cart;
+import com.rhaveeval.shoppingcart.model.User;
 import com.rhaveeval.shoppingcart.repository.CartItemRepository;
 import com.rhaveeval.shoppingcart.repository.CartRepository;
 
@@ -44,9 +46,13 @@ public class CartService implements CartServiceImpl {
 	}
 	
 	@Override
-	public Long initializeNewCart() {
-		Cart newCart = new Cart();
-		return cartRepository.save(newCart).getId();
+	public Cart initializeNewCart(User user) {
+		return Optional.ofNullable(getCartByUserId(user.getId()))
+				.orElseGet(() -> {
+					Cart cart = new Cart();
+					cart.setUser(user);
+					return cartRepository.save(cart);
+				});
 	}
 
 	@Override
