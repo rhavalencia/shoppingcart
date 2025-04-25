@@ -54,44 +54,10 @@ public class UserService implements UserServiceImpl {
 			new ResourceNotFoundException("User not found");
 		});
 	}
-	
+
 	@Override
-	public  UserDto convertToDto(User user) {
+	public UserDto convertToDto(User user) {
 		return modelMapper.map(user, UserDto.class);
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -63,7 +63,10 @@ public class OrderService implements OrderServiceImpl {
 	}
 
 	private BigDecimal calculateTotalAmount(List<OrderItem> orderItems) {
-		return orderItems.stream().map(item -> item.getPrice().multiply(new BigDecimal(item.getQuantity())))
+		return orderItems
+				.stream()
+				.map(item -> item.getPrice()
+						.multiply(new BigDecimal(item.getQuantity())))
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
@@ -72,13 +75,15 @@ public class OrderService implements OrderServiceImpl {
 		return orderRepository.findById(orderId).map(this::convertToDto)
 				.orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 	}
-
+	
+	@Override
 	public List<OrderDto> getUserOrders(Long userId) {
 		List<Order> orders = orderRepository.findByUserId(userId);
 		return orders.stream().map(this::convertToDto).toList();
 	}
-
-	private OrderDto convertToDto(Order order) {
+	
+	@Override
+	public OrderDto convertToDto(Order order) {
 		return modelMapper.map(order, OrderDto.class);
 	}
 }

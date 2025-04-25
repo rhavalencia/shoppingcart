@@ -2,6 +2,7 @@ package com.rhaveeval.shoppingcart.model;
 
 import java.math.BigDecimal;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
